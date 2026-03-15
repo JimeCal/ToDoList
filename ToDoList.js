@@ -6,6 +6,7 @@ function showDialog() {
   });
   dialog.showModal();
 }
+
 function closeDialog() {
   dialog.close();
 }
@@ -22,21 +23,52 @@ const dialogDelete = document.getElementById("dialogDelete");
 function showDialogDelete() {
   dialogDelete.showModal();
 }
+
 function closeDialogDelete() {
   dialogDelete.close();
 }
 
 function confirmDelete(index) {
   showDialogDelete();
+
   document.getElementById("confirm-delete").onclick = () => {
     deleteTask(index);
     closeDialogDelete();
   };
 }
 
+/* ===== CARGA INICIAL ===== */
+
 window.onload = function () {
-  renderTasks("", "");
+  renderTasks("", "", "", "");
 };
+
+/* ===== FILTROS ===== */
+
+function applyFilters() {
+  const priorityFilter = document.getElementById("priority-filter").value;
+  const categoryFilter = document.getElementById("category-filter").value;
+  const nameFilter = document.getElementById("name-filter").value;
+  const completeFilter = document.getElementById("complete-filter").value;
+
+  renderTasks(priorityFilter, categoryFilter, nameFilter, completeFilter);
+}
+
+document
+  .getElementById("priority-filter")
+  .addEventListener("change", applyFilters);
+
+document
+  .getElementById("category-filter")
+  .addEventListener("input", applyFilters);
+
+document.getElementById("name-filter").addEventListener("input", applyFilters);
+
+document
+  .getElementById("complete-filter")
+  .addEventListener("change", applyFilters);
+
+/* ===== RENDER TASKS ===== */
 
 const renderTasks = (
   selectedPriority,
@@ -45,7 +77,9 @@ const renderTasks = (
   selectedStatus
 ) => {
   const tasksContainer = document.getElementById("tasks-container");
+
   tasksContainer.innerHTML = "";
+
   const tasks = JSON.parse(localStorage.getItem("tasks")) ?? [];
 
   const filteredTasks = getFilteredTasks(
@@ -64,9 +98,12 @@ const renderTasks = (
   filteredTasks.forEach((task, index) => {
     const taskContainer = document.createElement("div");
     const textContainer = document.createElement("div");
+
     const categoryContainer = document.createElement("p");
     const priorityContainer = document.createElement("p");
+
     const taskName = document.createElement("h3");
+
     taskName.innerText = task.taskName;
     categoryContainer.innerText = task.taskCategory;
     priorityContainer.innerText = task.taskPriority;
@@ -79,13 +116,18 @@ const renderTasks = (
     textContainer.classList.add("tarea");
 
     tasksContainer.appendChild(taskContainer);
+
     taskContainer.appendChild(textContainer);
+
     textContainer.appendChild(taskName);
     textContainer.appendChild(categoryContainer);
     textContainer.appendChild(priorityContainer);
+
     renderIconsBlock(taskContainer, index, task.completed);
   });
 };
+
+/* ===== FILTRADO ===== */
 
 const getFilteredTasks = (
   tasks,
@@ -102,9 +144,11 @@ const getFilteredTasks = (
     const priorityMatch = selectedPriority
       ? task.taskPriority === selectedPriority
       : true;
+
     const nameMatch = selectedName
       ? task.taskName.toLowerCase().includes(selectedName.toLowerCase())
       : true;
+
     const statusMatch = selectedStatus
       ? selectedStatus === "completas"
         ? task.completed
@@ -117,19 +161,23 @@ const getFilteredTasks = (
   return filteredTasks;
 };
 
+/* ===== ICONOS ===== */
+
 const renderIconsBlock = (taskContainer, index, taskCompleted) => {
   const iconContainer = document.createElement("div");
+
   const trashIcon = document.createElement("i");
   const pencilIcon = document.createElement("i");
   const checkIcon = document.createElement("i");
 
   iconContainer.classList.add("iconos");
-  trashIcon.classList.add("bi", "bi-trash", "icono-equis");
-  pencilIcon.classList.add("bi", "bi-pencil-square", "icono-editar");
+
+  trashIcon.classList.add("bi", "bi-trash");
+  pencilIcon.classList.add("bi", "bi-pencil-square");
+
   checkIcon.classList.add(
     "bi",
-    `bi-check-circle${taskCompleted ? "-fill" : ""}`,
-    "icono-completo"
+    `bi-check-circle${taskCompleted ? "-fill" : ""}`
   );
 
   pencilIcon.addEventListener("click", () => editTask(index));
@@ -139,45 +187,11 @@ const renderIconsBlock = (taskContainer, index, taskCompleted) => {
   iconContainer.appendChild(trashIcon);
   iconContainer.appendChild(pencilIcon);
   iconContainer.appendChild(checkIcon);
+
   taskContainer.appendChild(iconContainer);
 };
 
-document.getElementById("priority-filter").addEventListener("change", (ev) => {
-  const categoryFilter = document.getElementById("category-filter").value;
-  const nameFilter = document.getElementById("name-filter").value;
-  const completeFilter = document.getElementById("complete-filter").value;
-  const priorityFilter = ev.target.value;
-
-  renderTasks(priorityFilter, categoryFilter, nameFilter, completeFilter);
-});
-
-document.getElementById("category-filter").addEventListener("input", (ev) => {
-  const priorityFilter = document.getElementById("priority-filter").value;
-  const nameFilter = document.getElementById("name-filter").value;
-  const completeFilter = document.getElementById("complete-filter").value;
-
-  const categoryFilter = ev.target.value;
-
-  renderTasks(priorityFilter, categoryFilter, nameFilter, completeFilter);
-});
-
-document.getElementById("name-filter").addEventListener("input", (ev) => {
-  const priorityFilter = document.getElementById("priority-filter").value;
-  const categoryFilter = document.getElementById("category-filter").value;
-  const completeFilter = document.getElementById("complete-filter").value;
-  const nameFilter = ev.target.value;
-
-  renderTasks(priorityFilter, categoryFilter, nameFilter, completeFilter);
-});
-
-document.getElementById("complete-filter").addEventListener("change", (ev) => {
-  const categoryFilter = document.getElementById("category-filter").value;
-  const nameFilter = document.getElementById("name-filter").value;
-  const priorityFilter = document.getElementById("priority-filter").value;
-  const completeFilter = ev.target.value;
-
-  renderTasks(priorityFilter, categoryFilter, nameFilter, completeFilter);
-});
+/* ===== EDITAR ===== */
 
 const editTask = (index) => {
   const tasks = JSON.parse(localStorage.getItem("tasks")) ?? [];
@@ -194,16 +208,23 @@ const editTask = (index) => {
     nameFilter,
     completeFilter
   );
+
   const taskToEdit = filteredTasks[index];
+
   document.getElementById("task-category").value = taskToEdit.taskCategory;
   document.getElementById("task-name").value = taskToEdit.taskName;
   document.getElementById("task-priority").value = taskToEdit.taskPriority;
 
   let url = new URL(window.location.href);
+
   url.searchParams.set("taskIndex", index);
+
   window.history.pushState({}, "", url.toString());
+
   showDialog();
 };
+
+/* ===== ELIMINAR ===== */
 
 const deleteTask = (index) => {
   const tasks = JSON.parse(localStorage.getItem("tasks")) ?? [];
@@ -223,18 +244,23 @@ const deleteTask = (index) => {
 
   const taskToDelete = filteredTasks[index];
 
-  const updatedTaks = tasks.filter((task) => task.id !== taskToDelete.id);
+  const updatedTasks = tasks.filter((task) => task.id !== taskToDelete.id);
 
-  localStorage.setItem("tasks", JSON.stringify(updatedTaks));
-  renderTasks(priorityFilter, categoryFilter, nameFilter, completeFilter);
+  localStorage.setItem("tasks", JSON.stringify(updatedTasks));
+
+  applyFilters();
 };
+
+/* ===== COMPLETAR ===== */
 
 const completeTask = (index) => {
   const tasks = JSON.parse(localStorage.getItem("tasks")) ?? [];
+
   const priorityFilter = document.getElementById("priority-filter").value;
   const categoryFilter = document.getElementById("category-filter").value;
   const nameFilter = document.getElementById("name-filter").value;
   const completeFilter = document.getElementById("complete-filter").value;
+
   const filteredTasks = getFilteredTasks(
     tasks,
     priorityFilter,
@@ -244,18 +270,22 @@ const completeTask = (index) => {
   );
 
   const currentTask = filteredTasks[index];
+
   currentTask.completed = !currentTask.completed;
+
   const updatedTasks = tasks.map((task) => {
     if (task.id === currentTask.id) {
       return currentTask;
     }
-
     return task;
   });
+
   localStorage.setItem("tasks", JSON.stringify(updatedTasks));
 
-  renderTasks(priorityFilter, categoryFilter, nameFilter, completeFilter);
+  applyFilters();
 };
+
+/* ===== VALIDACION FORMULARIO ===== */
 
 const taskNameInput = document.getElementById("task-name");
 const taskCategoryInput = document.getElementById("task-category");
@@ -264,9 +294,11 @@ const taskPriorityInput = document.getElementById("task-priority");
 taskNameInput.addEventListener("input", () => {
   resetErrorMessage("task-name");
 });
+
 taskCategoryInput.addEventListener("input", () => {
   resetErrorMessage("task-category");
 });
+
 taskPriorityInput.addEventListener("input", () => {
   resetErrorMessage("task-priority");
 });
@@ -277,6 +309,7 @@ taskForm.addEventListener("submit", (e) => {
   e.preventDefault();
 
   const formData = new FormData(e.target);
+
   let allValuesAreValid = true;
 
   for (const [key, value] of formData.entries()) {
@@ -287,6 +320,7 @@ taskForm.addEventListener("submit", (e) => {
       setErrorMessage(key, "");
     }
   }
+
   if (!allValuesAreValid) {
     return;
   }
@@ -296,16 +330,20 @@ taskForm.addEventListener("submit", (e) => {
   const storedTasks = JSON.parse(localStorage.getItem("tasks")) ?? [];
 
   const newTask = {
-    id: Math.floor(Math.random() * 1000),
+    id: Math.floor(Math.random() * 100000),
     taskName: formData.get("task-name"),
     taskCategory: formData.get("task-category"),
     taskPriority: formData.get("task-priority"),
+    completed: false,
   };
 
   if (url.searchParams.has("taskIndex")) {
     let taskIndex = url.searchParams.get("taskIndex");
+
     storedTasks[Number(taskIndex)] = newTask;
+
     url.searchParams.delete("taskIndex");
+
     window.history.pushState({}, "", url.toString());
   } else {
     storedTasks.push(newTask);
@@ -315,14 +353,13 @@ taskForm.addEventListener("submit", (e) => {
 
   closeDialog();
 
-  renderTasks("", "");
+  applyFilters();
 
   taskForm.reset();
 });
 
-document.getElementById("task-category").addEventListener("input", (ev) => {
-  resetErrorMessage("task-category");
-});
+/* ===== UTILIDADES ===== */
+
 function resetField(input) {
   document.getElementById(input).value = "";
   setErrorMessage(input, "", "");

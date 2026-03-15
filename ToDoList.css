@@ -1,4 +1,5 @@
 /* ===== Reset ===== */
+
 * {
   margin: 0;
   box-sizing: border-box;
@@ -70,9 +71,10 @@ header h1 {
   border-radius: 20px;
   padding: 25px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+
   display: grid;
   grid-template-columns: 120px 1fr 120px 1fr;
-  gap: 10px;
+  gap: 12px;
   align-items: center;
 }
 
@@ -84,10 +86,11 @@ header h1 {
 
 input,
 select {
-  padding: 8px;
+  padding: 10px;
   border-radius: 10px;
   border: none;
   background: #f1e3e8;
+  font-size: 14px;
 }
 
 input:focus,
@@ -142,6 +145,8 @@ select:focus {
   color: #6d545c;
 }
 
+/* ===== Tarea completada ===== */
+
 .tarea-completada {
   background: #cf909f;
   color: white;
@@ -171,51 +176,81 @@ select:focus {
   transform: scale(1.15);
 }
 
-/* ===== DIALOG ===== */
+/* ===== DIALOG (MODAL) ===== */
 
 .dialog {
   width: 450px;
   border-radius: 20px;
   border: none;
-  padding: 20px;
+  padding: 25px;
   background: #f8e5ea;
+
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
 }
+
+/* Fondo oscuro del modal */
+
+dialog::backdrop {
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(3px);
+}
+
+/* ===== Inputs del modal ===== */
 
 .inputs-container {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 15px;
 }
 
 .titulo-dialog {
   text-align: center;
   font-size: 20px;
+  font-weight: 600;
 }
 
 .input-container {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 5px;
 }
+
+.dialog input,
+.dialog select {
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid #e5b6c5;
+  background: white;
+}
+
+/* ===== Botones del modal ===== */
 
 .bnt-dialog {
   display: flex;
   justify-content: center;
-  gap: 10px;
+  gap: 12px;
   margin-top: 10px;
 }
 
 .bnt-dialog button {
-  padding: 8px 15px;
-  border-radius: 10px;
+  padding: 10px 18px;
+  border-radius: 12px;
   border: none;
-  background: #e7bacb;
+  background: #cf909f;
+  color: white;
+  font-weight: 500;
   cursor: pointer;
+  transition: all 0.2s;
 }
 
 .bnt-dialog button:hover {
-  background: #eccad5;
+  background: #b17281;
+  transform: translateY(-1px);
 }
 
 /* ===== DELETE DIALOG ===== */
@@ -227,16 +262,23 @@ select:focus {
   border: none;
   padding: 25px;
   background: #f8e5ea;
+
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
 }
 
 .dialogDelete button {
   margin: 10px;
-  padding: 8px 15px;
+  padding: 10px 16px;
   border: none;
   border-radius: 10px;
   background: #e7bacb;
   cursor: pointer;
+  transition: 0.2s;
 }
 
 .dialogDelete button:hover {
@@ -253,17 +295,22 @@ select:focus {
 /* ===== RESPONSIVE ===== */
 
 @media (max-width: 768px) {
+
   .contenedor-filtro {
     grid-template-columns: 1fr;
+    width: 90%;
   }
 
   .cuadros-de-tarea {
     width: 90%;
   }
+
 }
 
 @media (max-width: 375px) {
+
   .icono-añadir {
     display: none;
   }
+
 }
