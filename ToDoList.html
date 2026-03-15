@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Afacad+Flux:wght@100..1000&family=Lora:wght@400..700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    />
+    <link rel="stylesheet" href="ToDoList.css" />
+    <title>ToDoList</title>
+  </head>
+  <body>
+    <header class="navbar">
+      <div>&nbsp;</div>
+      <h1>Lista de tareas</h1>
+      <div>
+        <button class="btn-añadir" onclick="addTask()">
+          <i class="bi bi-plus-circle-dotted icono-añadir"></i>
+          Añadir
+        </button>
+      </div>
+    </header>
+    <section class="seccion-filtro">
+      <div class="contenedor-filtro">
+        <h2>Filtro</h2>
+        <label for="nombre">Nombre</label>
+        <input id="name-filter" type="text" />
+        <label for="categoria">Categoria</label>
+        <input id="category-filter" type="text" />
+        <label for="prioridad">Prioridad</label>
+        <select name="filtroPrioridad" id="priority-filter">
+          <option value="">Todas</option>
+          <option value="Alta">Alta</option>
+          <option value="Media">Media</option>
+          <option value="Baja">Baja</option>
+        </select>
+        <label for="completas">Estado</label>
+        <select name="filtroCompletas" id="complete-filter">
+          <option value="">Todas</option>
+          <option value="completas">Completadas</option>
+          <option value="incompletas">Incompletas</option>
+        </select>
+      </div>
+    </section>
+
+    <div class="contenedor-crear-tarea">
+      <dialog id="dialog" class="dialog">
+        <form class="inputs-container" id="add-task">
+          <p class="titulo-dialog">Ingrese datos de la tarea</p>
+          <div class="input-container">
+            <label>Nombre de la tarea</label>
+            <input name="task-name" id="task-name" type="text" />
+            <span class="error" id="task-name_error"></span>
+          </div>
+          <div class="input-container">
+            <label>Categoria de la tarea</label>
+            <input name="task-category" id="task-category" type="text" />
+            <span class="error" id="task-category_error"></span>
+          </div>
+          <div class="input-container">
+            <label>Prioridad de la tarea</label>
+            <select name="task-priority" id="task-priority">
+              <option value="">Seleccione</option>
+              <option value="Alta">Alta</option>
+              <option value="Media">Media</option>
+              <option value="Baja">Baja</option>
+            </select>
+            <span class="error" id="task-priority_error"></span>
+          </div>
+          <div class="bnt-dialog">
+            <button id="bnt-crear" type="submit">Crear/Modificar tarea</button>
+            <button onclick="closeDialog()" type="button">Cerrar</button>
+          </div>
+        </form>
+      </dialog>
+    </div>
+
+    <dialog id="dialogDelete" class="dialogDelete">
+      <h3>¿Estas seguro de eliminar esta tarea?</h3>
+      <button id="confirm-delete">Si</button>
+      <button onclick="closeDialogDelete()" type="button">No</button>
+    </dialog>
+
+    <div id="tasks-container" class="tasks-container"></div>
+
+    <script src="ToDoList.js"></script>
+  </body>
+</html>

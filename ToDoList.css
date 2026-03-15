@@ -1,0 +1,269 @@
+/* ===== Reset ===== */
+* {
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Afacad Flux", sans-serif;
+  background: linear-gradient(180deg, #d69cab, #f4dce3);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ===== Header ===== */
+
+header.navbar {
+  background: rgba(207, 144, 159, 0.9);
+  backdrop-filter: blur(8px);
+  padding: 15px 20px;
+
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+}
+
+header h1 {
+  text-align: center;
+  font-family: "Lora", serif;
+  font-size: 36px;
+  color: #3d2a2f;
+}
+
+/* ===== BOTON AÑADIR ===== */
+
+.btn-añadir {
+  justify-self: end;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+  border-radius: 30px;
+  border: none;
+  background: linear-gradient(135deg, #ffffff, #f3d6df);
+  color: #3d2a2f;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-añadir:hover {
+  transform: translateY(-2px);
+}
+
+.icono-añadir {
+  font-size: 18px;
+}
+
+/* ===== Filtro ===== */
+
+.seccion-filtro {
+  display: flex;
+  justify-content: center;
+  margin-top: 30px;
+}
+
+.contenedor-filtro {
+  background: white;
+  width: 900px;
+  border-radius: 20px;
+  padding: 25px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  display: grid;
+  grid-template-columns: 120px 1fr 120px 1fr;
+  gap: 10px;
+  align-items: center;
+}
+
+.contenedor-filtro h2 {
+  grid-column: 1 / -1;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+input,
+select {
+  padding: 8px;
+  border-radius: 10px;
+  border: none;
+  background: #f1e3e8;
+}
+
+input:focus,
+select:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px #cf909f;
+}
+
+/* ===== TASKS ===== */
+
+.tasks-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 30px;
+}
+
+.cuadros-de-tarea {
+  width: 500px;
+
+  display: grid;
+  grid-template-columns: 1fr auto;
+
+  padding: 15px;
+
+  border-radius: 15px;
+  background: white;
+
+  margin: 10px;
+
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+
+  transition: transform 0.15s ease;
+}
+
+.cuadros-de-tarea:hover {
+  transform: translateY(-3px);
+}
+
+.tarea {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.tarea h3 {
+  font-size: 20px;
+  color: #3d2a2f;
+}
+
+.tarea p {
+  color: #6d545c;
+}
+
+.tarea-completada {
+  background: #cf909f;
+  color: white;
+}
+
+.tarea-completada h3,
+.tarea-completada p {
+  color: white;
+}
+
+/* ===== ICONOS ===== */
+
+.iconos {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  font-size: 20px;
+}
+
+.bi {
+  cursor: pointer;
+  transition: 0.15s;
+}
+
+.bi:hover {
+  color: #b17281;
+  transform: scale(1.15);
+}
+
+/* ===== DIALOG ===== */
+
+.dialog {
+  width: 450px;
+  border-radius: 20px;
+  border: none;
+  padding: 20px;
+  background: #f8e5ea;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+}
+
+.inputs-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.titulo-dialog {
+  text-align: center;
+  font-size: 20px;
+}
+
+.input-container {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.bnt-dialog {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.bnt-dialog button {
+  padding: 8px 15px;
+  border-radius: 10px;
+  border: none;
+  background: #e7bacb;
+  cursor: pointer;
+}
+
+.bnt-dialog button:hover {
+  background: #eccad5;
+}
+
+/* ===== DELETE DIALOG ===== */
+
+.dialogDelete {
+  text-align: center;
+  width: 400px;
+  border-radius: 20px;
+  border: none;
+  padding: 25px;
+  background: #f8e5ea;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+}
+
+.dialogDelete button {
+  margin: 10px;
+  padding: 8px 15px;
+  border: none;
+  border-radius: 10px;
+  background: #e7bacb;
+  cursor: pointer;
+}
+
+.dialogDelete button:hover {
+  background: #eccad5;
+}
+
+/* ===== ERROR ===== */
+
+.error {
+  color: #ff2299;
+  font-size: 14px;
+}
+
+/* ===== RESPONSIVE ===== */
+
+@media (max-width: 768px) {
+  .contenedor-filtro {
+    grid-template-columns: 1fr;
+  }
+
+  .cuadros-de-tarea {
+    width: 90%;
+  }
+}
+
+@media (max-width: 375px) {
+  .icono-añadir {
+    display: none;
+  }
+}
